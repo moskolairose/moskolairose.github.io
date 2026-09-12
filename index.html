@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rose Moskolai — Données géospatiales & IA appliquée</title>
+<meta name="description" content="Portfolio de Rose Moskolai — experte SIG, télédétection et IA appliquée aux données de terrain, Douala, Cameroun.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F3EC;
+    --paper-raised:#FBFAF6;
+    --ink:#1F2A24;
+    --teal:#2F6F62;
+    --ochre:#B08430;
+    --line:#DCD5C2;
+    --muted:#6B7268;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:var(--teal);}
+
+  .wrap{
+    max-width:880px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  /* ---------- coordinate label ---------- */
+  .coord{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:0.03em;
+    color:var(--muted);
+  }
+
+  /* ---------- header / nav ---------- */
+  header{
+    position:sticky; top:0; z-index:10;
+    background:rgba(246,243,236,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  header .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding-top:16px; padding-bottom:16px;
+  }
+  .brand{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:19px;
+    color:var(--ink);
+    text-decoration:none;
+  }
+  nav{display:flex; gap:26px;}
+  nav a{
+    color:var(--ink);
+    text-decoration:none;
+    font-size:14.5px;
+  }
+  nav a:hover{color:var(--teal);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:96px 0 84px;
+    overflow:hidden;
+  }
+  .hero-lines{
+    position:absolute; inset:0;
+    pointer-events:none;
+    opacity:0.55;
+  }
+  .hero .wrap{position:relative;}
+  .hero .coord{margin-bottom:22px;}
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(34px, 5vw, 54px);
+    line-height:1.08;
+    margin:0 0 22px;
+    max-width:11.5em;
+  }
+  .hero p.lede{
+    max-width:34em;
+    font-size:18px;
+    color:#39443C;
+    margin:0 0 32px;
+  }
+  .hero-actions{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    display:inline-block;
+    padding:11px 20px;
+    border-radius:2px;
+    text-decoration:none;
+    font-size:14.5px;
+    font-weight:500;
+    border:1px solid var(--ink);
+  }
+  .btn-primary{background:var(--ink); color:var(--paper);}
+  .btn-primary:hover{background:var(--teal); border-color:var(--teal);}
+  .btn-ghost{background:transparent; color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--teal); color:var(--teal);}
+
+  /* ---------- sections ---------- */
+  section{padding:64px 0;}
+  section + section{border-top:1px solid var(--line);}
+
+  h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:26px;
+    margin:0 0 8px;
+  }
+  .section-intro{
+    color:var(--muted);
+    max-width:40em;
+    margin:0 0 40px;
+  }
+
+  /* ---------- about ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:48px;
+  }
+  .about-grid p{margin:0 0 16px;}
+  .skills-list{
+    list-style:none; margin:0; padding:0;
+    display:grid; grid-template-columns:1fr 1fr; gap:8px 20px;
+  }
+  .skills-list li{
+    font-size:15px;
+    padding:9px 0;
+    border-bottom:1px solid var(--line);
+  }
+
+  /* ---------- timeline ---------- */
+  .timeline{border-top:1px solid var(--line);}
+  .tl-item{
+    display:grid;
+    grid-template-columns:120px 1fr;
+    gap:24px;
+    padding:20px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .tl-item .coord{padding-top:3px;}
+  .tl-item h3{
+    margin:0 0 4px;
+    font-size:16px;
+    font-weight:600;
+  }
+  .tl-item p{margin:0; color:var(--muted); font-size:15px;}
+
+  /* ---------- projects ---------- */
+  .project{
+    padding:32px 0;
+    border-bottom:1px solid var(--line);
+    display:grid;
+    grid-template-columns:44px 1fr;
+    gap:22px;
+  }
+  .project:first-of-type{border-top:1px solid var(--line);}
+  .project .num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--ochre);
+    padding-top:5px;
+  }
+  .project h3{
+    font-family:'Fraunces', serif;
+    font-size:21px;
+    font-weight:500;
+    margin:0 0 10px;
+  }
+  .project p{margin:0 0 14px; max-width:52em;}
+  .tags{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--teal);
+    border:1px solid var(--teal);
+    border-radius:2px;
+    padding:3px 8px;
+  }
+  .project-link{
+    display:inline-block; margin-top:14px;
+    font-size:14.5px;
+    font-weight:500;
+  }
+
+  /* ---------- contact ---------- */
+  .contact-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+  }
+  .contact-card{
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    padding:22px 24px;
+  }
+  .contact-card .label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--muted);
+    display:block;
+    margin-bottom:6px;
+  }
+  .contact-card a{
+    font-size:16px;
+    text-decoration:none;
+    color:var(--ink);
+    font-weight:500;
+  }
+  .contact-card a:hover{color:var(--teal);}
+
+  footer{
+    padding:32px 0 48px;
+    color:var(--muted);
+    font-size:13.5px;
+  }
+
+  @media (max-width:720px){
+    .about-grid, .contact-grid{grid-template-columns:1fr;}
+    .skills-list{grid-template-columns:1fr;}
+    .tl-item{grid-template-columns:1fr; gap:4px;}
+    nav{gap:16px;}
+    nav a{font-size:13px;}
+    .project{grid-template-columns:1fr; gap:8px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="#top">Rose Moskolai</a>
+    <nav>
+      <a href="#about">Profil</a>
+      <a href="#projects">Projets</a>
+      <a href="#cv">CV</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div id="top"></div>
+
+<section class="hero">
+  <svg class="hero-lines" viewBox="0 0 900 400" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M-20,340 C 180,300 260,380 460,330 S 760,260 920,310" fill="none" stroke="#2F6F62" stroke-width="1"/>
+    <path d="M-20,300 C 180,260 260,340 460,290 S 760,220 920,270" fill="none" stroke="#2F6F62" stroke-width="1" opacity="0.6"/>
+    <path d="M-20,260 C 180,220 260,300 460,250 S 760,180 920,230" fill="none" stroke="#2F6F62" stroke-width="1" opacity="0.35"/>
+    <path d="M-20,50 C 220,10 300,90 520,45 S 800,-10 920,40" fill="none" stroke="#B08430" stroke-width="1" opacity="0.4"/>
+    <path d="M-20,90 C 220,50 300,130 520,85 S 800,30 920,80" fill="none" stroke="#B08430" stroke-width="1" opacity="0.25"/>
+  </svg>
+  <div class="wrap">
+    <div class="coord">04°03'N 09°42'E — DOUALA, CAMEROUN</div>
+    <h1>Faire parler les données de terrain, du satellite jusqu'à la décision.</h1>
+    <p class="lede">Experte SIG, télédétection et IA appliquée — je conçois des méthodologies de cartographie et des outils d'aide à la décision pour l'agriculture, l'environnement et l'investissement public.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#projects">Voir les projets</a>
+      <a class="btn btn-ghost" href="#cv">Télécharger le CV</a>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <h2>Profil</h2>
+    <p class="section-intro">Docteure en informatique, formée à la croisée de la donnée géospatiale et de l'intelligence artificielle.</p>
+    <div class="about-grid">
+      <div>
+        <p>Je travaille depuis plus de dix ans sur les systèmes d'information et la donnée de terrain au Cameroun — d'abord comme analyste statistique, puis comme responsable régionale des affaires générales et des systèmes d'information au MINEPIA à Douala.</p>
+        <p>Mon doctorat, mené entre l'Université de Bourgogne et l'Université de Maroua, a porté sur la prédiction de la déforestation par apprentissage profond appliqué aux séries temporelles satellite. Je poursuis aujourd'hui ce travail à l'intersection du SIG, de la télédétection et de l'IA appliquée, en parallèle d'une activité de conseil indépendant (3kMaya Consulting).</p>
+      </div>
+      <ul class="skills-list">
+        <li>SIG & télédétection (ArcGIS, GeoPandas)</li>
+        <li>Python, SQL, R</li>
+        <li>Deep learning (CNN, LSTM, ConvLSTM)</li>
+        <li>Google Earth Engine</li>
+        <li>Tableaux de bord & systèmes d'information</li>
+        <li>Formation d'équipes terrain</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="parcours">
+  <div class="wrap">
+    <h2>Parcours</h2>
+    <p class="section-intro">Repères chronologiques.</p>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="coord">2023 — 2026</div>
+        <div>
+          <h3>Responsable régionale des affaires générales et des systèmes d'information</h3>
+          <p>MINEPIA, Délégation Régionale du Littoral, Douala</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="coord">2021 — 2023</div>
+        <div>
+          <h3>Attaché temporaire d'enseignement et de recherche</h3>
+          <p>Université de Bourgogne, ESIREM et IUT Le Creusot, France</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="coord">2018 — 2022</div>
+        <div>
+          <h3>Doctorat en informatique</h3>
+          <p>Université de Bourgogne (France) & Université de Maroua (Cameroun)</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="coord">2015 — 2018</div>
+        <div>
+          <h3>Chef de service des affaires générales</h3>
+          <p>MINEPIA, Délégation Régionale du Littoral, Douala</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="coord">2013 — 2015</div>
+        <div>
+          <h3>Chargée d'études assistante / Analyste systèmes d'information</h3>
+          <p>MINEPIA, Cellule des Enquêtes et Statistiques, Yaoundé</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <h2>Projets</h2>
+    <p class="section-intro">Une sélection de travaux à l'intersection de la donnée géospatiale et de l'IA appliquée.</p>
+
+    <div class="project">
+      <div class="num">01</div>
+      <div>
+        <h3>RGAE — Cartographie des cultures par télédétection</h3>
+        <p>Conception d'une méthodologie de cartographie des cultures et de statistiques des superficies agricoles pour le Recensement Général de l'Agriculture et de l'Élevage (RGAE) au Cameroun, inspirée de la méthode EOSTAT CropMapper. Objectif : couvrir les zones difficiles d'accès où peu ou pas de données terrain sont disponibles. Pilote documenté sur la zone de Mora (pipeline Google Earth Engine, méthodologie, résultats), présenté lors d'un atelier réunissant décideurs, techniciens et partenaires terrain.</p>
+        <div class="tags">
+          <span class="tag">Google Earth Engine</span>
+          <span class="tag">Télédétection</span>
+          <span class="tag">Statistiques agricoles</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="num">02</div>
+      <div>
+        <h3>Prédiction de la déforestation par séries temporelles satellite</h3>
+        <p>Travaux de thèse doctorale portant sur la prédiction de la déforestation à partir de séries temporelles Sentinel-1 et Sentinel-2, à l'aide de modèles CNN, LSTM et ConvLSTM.</p>
+        <div class="tags">
+          <span class="tag">Deep Learning</span>
+          <span class="tag">Sentinel-1 / Sentinel-2</span>
+          <span class="tag">CNN · LSTM · ConvLSTM</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="num">03</div>
+      <div>
+        <h3>Tableau de bord de suivi de l'investissement public</h3>
+        <p>Conception d'un outil d'analyse et de visualisation pour le suivi de l'investissement public, destiné à appuyer la prise de décision.</p>
+        <div class="tags">
+          <span class="tag">Dashboards</span>
+          <span class="tag">Analytics</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="cv">
+  <div class="wrap">
+    <h2>CV</h2>
+    <p class="section-intro">Version PDF téléchargeable — à remplacer par ton propre fichier.</p>
+    <a class="btn btn-primary" href="cv-rose-moskolai.pdf" download>Télécharger le CV (PDF)</a>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <h2>Contact</h2>
+    <p class="section-intro">Disponible pour des missions de consultance en SIG, télédétection et IA appliquée.</p>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <span class="label">EMAIL</span>
+        <a href="mailto:ton.email@exemple.com">ton.email@exemple.com</a>
+      </div>
+      <div class="contact-card">
+        <span class="label">LINKEDIN</span>
+        <a href="https://linkedin.com/in/ton-profil" target="_blank" rel="noopener">linkedin.com/in/ton-profil</a>
+      </div>
+      <div class="contact-card">
+        <span class="label">GITHUB</span>
+        <a href="https://github.com/ton-compte" target="_blank" rel="noopener">github.com/ton-compte</a>
+      </div>
+      <div class="contact-card">
+        <span class="label">CONSULTING</span>
+        <a href="#">3kMaya Consulting</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Rose Moskolai — Douala, Cameroun
+  </div>
+</footer>
+
+</body>
+</html>
